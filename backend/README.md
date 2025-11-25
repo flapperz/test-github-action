@@ -17,14 +17,14 @@ uvicorn app.main:app --reload
 ## Linting
 
 ```bash
+# Lint and check
+ruff check app/
+
 # Format code
-black app/
+ruff format app/
 
 # Check formatting
-black --check app/
-
-# Lint
-flake8 app/
+ruff format --check app/
 
 # Type check
 mypy app/

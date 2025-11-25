@@ -33,15 +33,11 @@ jobs:
           cd backend
           pip install -r requirements-dev.txt
 
-      - name: Run Black (format check)
+      - name: Run Ruff (linting and formatting)
         run: |
           cd backend
-          black --check app/
-
-      - name: Run Flake8 (linting)
-        run: |
-          cd backend
-          flake8 app/
+          ruff check app/
+          ruff format --check app/
 
       - name: Run MyPy (type checking)
         run: |

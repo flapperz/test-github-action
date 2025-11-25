@@ -37,14 +37,15 @@ uvicorn app.main:app --reload
 
 ```bash
 cd backend
-black app/              # Format code
-flake8 app/             # Lint
+ruff check app/         # Lint
+ruff format app/        # Format code
 mypy app/               # Type check
 ```
 
-## Frontend (Vite + React)
+## Frontend (Vite + React + TypeScript)
 
-The frontend is a Vite React application with:
+The frontend is a Vite React TypeScript application with:
+- TypeScript for type safety
 - ESLint for linting
 - Prettier for code formatting
 - Modern React setup
@@ -61,6 +62,7 @@ npm run dev
 
 ```bash
 cd frontend
+npm run type-check     # Run TypeScript type check
 npm run lint           # Run ESLint
 npm run format:check   # Check formatting
 npm run format         # Format code
@@ -71,12 +73,12 @@ npm run format         # Format code
 ### 1. Backend Linting (`backend-lint.yml`)
 - Runs on push/PR to main/develop branches
 - Only triggers when backend files change
-- Checks: Black formatting, Flake8 linting, MyPy type checking
+- Checks: Ruff linting and formatting, MyPy type checking
 
 ### 2. Frontend Linting (`frontend-lint.yml`)
 - Runs on push/PR to main/develop branches
 - Only triggers when frontend files change
-- Checks: ESLint, Prettier formatting
+- Checks: TypeScript type check, ESLint, Prettier formatting
 
 ### 3. GitHub Actions Quirk Tests (`quirk-tests.yml`)
 Tests fundamental GitHub Actions features:
