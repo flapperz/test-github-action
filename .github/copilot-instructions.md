@@ -39,7 +39,7 @@ This repository is for testing GitHub Actions and related workflows. It serves a
 - Add comments to explain complex workflow logic
 - Keep secrets secure and never commit them to the repository
 - Use environment variables for configuration
-- Version pin action dependencies for stability
+- Pin action dependencies to specific versions for stability
 
 ## Best Practices
 
