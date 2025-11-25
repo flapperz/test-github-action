@@ -10,7 +10,7 @@ on:
 jobs:
   # Test matrix strategy
   matrix-test:
-    name: Matrix Test (OS: ${{ matrix.os }}, Node: ${{ matrix.node-version }})
+    name: "Matrix Test (OS: ${{ matrix.os }}, Node: ${{ matrix.node-version }})"
     runs-on: ${{ matrix.os }}
     permissions:
       contents: read
@@ -33,7 +33,7 @@ jobs:
         run: node --version
 
       - name: Test environment variables
-        run: echo "Running on ${{ matrix.os }} with Node ${{ matrix.node-version }}"
+        run: 'echo "Running on ${{ matrix.os }} with Node ${{ matrix.node-version }}"'
 
   # Test conditional execution
   conditional-test:
@@ -157,4 +157,4 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Use output from previous job
-        run: echo "Previous job result: ${{ needs.dependency-test-1.outputs.result }}"
+        run: 'echo "Previous job result: ${{ needs.dependency-test-1.outputs.result }}"'
