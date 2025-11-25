@@ -1,0 +1,146 @@
+name: GitHub Actions Quirk Tests
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+
+jobs:
+  # Test matrix strategy
+  matrix-test:
+    name: Matrix Test (OS: ${{ matrix.os }}, Node: ${{ matrix.node-version }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        node-version: [18, 20]
+      fail-fast: false
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Display Node version
+        run: node --version
+
+      - name: Test environment variables
+        run: echo "Running on ${{ matrix.os }} with Node ${{ matrix.node-version }}"
+
+  # Test conditional execution
+  conditional-test:
+    name: Conditional Execution Test
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run on push only
+        if: github.event_name == 'push'
+        run: echo "This runs only on push events"
+
+      - name: Run on PR only
+        if: github.event_name == 'pull_request'
+        run: echo "This runs only on pull request events"
+
+      - name: Always run
+        if: always()
+        run: echo "This always runs"
+
+  # Test artifact upload and download
+  artifact-test:
+    name: Artifact Test
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create test artifact
+        run: |
+          mkdir -p test-artifacts
+          echo "Test artifact content" > test-artifacts/test-file.txt
+          echo "Timestamp: $(date)" >> test-artifacts/test-file.txt
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-artifact
+          path: test-artifacts/
+          retention-days: 1
+
+  # Test caching
+  cache-test:
+    name: Cache Test
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pip
+            ~/.npm
+          key: ${{ runner.os }}-cache-${{ hashFiles('**/requirements.txt', '**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-cache-
+
+      - name: Test cache
+        run: echo "Cache testing complete"
+
+  # Test environment variables and secrets handling
+  env-test:
+    name: Environment Variables Test
+    runs-on: ubuntu-latest
+    env:
+      TEST_ENV_VAR: "test-value"
+      NODE_ENV: "test"
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Display environment variables
+        run: |
+          echo "TEST_ENV_VAR: $TEST_ENV_VAR"
+          echo "NODE_ENV: $NODE_ENV"
+          echo "GITHUB_REF: $GITHUB_REF"
+          echo "GITHUB_SHA: $GITHUB_SHA"
+          echo "GITHUB_REPOSITORY: $GITHUB_REPOSITORY"
+
+  # Test job dependencies
+  dependency-test-1:
+    name: Dependency Test 1
+    runs-on: ubuntu-latest
+    outputs:
+      result: ${{ steps.test.outputs.result }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Generate output
+        id: test
+        run: echo "result=success" >> $GITHUB_OUTPUT
+
+  dependency-test-2:
+    name: Dependency Test 2
+    runs-on: ubuntu-latest
+    needs: dependency-test-1
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Use output from previous job
+        run: echo "Previous job result: ${{ needs.dependency-test-1.outputs.result }}"
