@@ -98,8 +98,8 @@ jobs:
         with:
           path: |
             ~/.cache/pip
-            ~/.npm
-          key: ${{ runner.os }}-cache-${{ hashFiles('**/requirements.txt', '**/package-lock.json') }}
+            ~/.cache/yarn
+          key: ${{ runner.os }}-cache-${{ hashFiles('**/requirements.txt', '**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-cache-
 
