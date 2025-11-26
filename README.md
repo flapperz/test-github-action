@@ -54,18 +54,18 @@ The frontend is a Vite React TypeScript application with:
 
 ```bash
 cd frontend
-npm install
-npm run dev
+yarn install
+yarn run dev
 ```
 
 ### Linting
 
 ```bash
 cd frontend
-npm run type-check     # Run TypeScript type check
-npm run lint           # Run ESLint
-npm run format:check   # Check formatting
-npm run format         # Format code
+yarn run type-check     # Run TypeScript type check
+yarn run lint           # Run ESLint
+yarn run format:check   # Check formatting
+yarn run format         # Format code
 ```
 
 ## GitHub Actions Workflows

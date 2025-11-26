@@ -5,33 +5,33 @@ A Vite React TypeScript application.
 ## Setup
 
 ```bash
-npm install
+yarn install
 ```
 
 ## Run
 
 ```bash
-npm run dev
+yarn run dev
 ```
 
 ## Linting
 
 ```bash
 # Type check
-npm run type-check
+yarn run type-check
 
 # Lint
-npm run lint
+yarn run lint
 
 # Check formatting
-npm run format:check
+yarn run format:check
 
 # Format code
-npm run format
+yarn run format
 ```
 
 ## Build
 
 ```bash
-npm run build
+yarn run build
 ```
